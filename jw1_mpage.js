@@ -70,6 +70,7 @@ function patientInfoTable(){
 
 			// Insert the table into the patient information section
 			document.getElementById('patientInfoTable').innerHTML  = tableBody.join("");
+			
 			var link = tabLink("Custom Patient Information","Patient Information","$APP_APPNAME$");
 
 			// Insert the link into the patient information section header
@@ -84,6 +85,7 @@ function patientInfoTable(){
 
 	return;
 }
+
 
 function allergyInfoTable(){
 	var mod_i = 0;
