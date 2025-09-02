@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Basic HTML Page</title>
+	<style>
+		body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; margin: 2rem; color: #222; }
+		header { margin-bottom: 1rem; }
+		.container { max-width: 800px; margin: 0 auto; }
+		a.button { display: inline-block; padding: .5rem 1rem; background:#0366d6; color:#fff; text-decoration:none; border-radius:6px; }
+		footer { margin-top: 2rem; color:#666; font-size: .9rem; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<h1>Welcome</h1>
+			<p>A minimal, responsive HTML starter page.</p>
+		</header>
+
+		<main>
+			<section>
+				<h2>About</h2>
+				<p>This page shows a simple structure: header, main content, and footer. Edit the HTML to add your content.</p>
+				<p><a class="button" href="#" id="demoButton">Click me</a></p>
+			</section>
+		</main>
+
+		<footer>
+			<p>&copy; <span id="year"></span> Your Name</p>
+		</footer>
+	</div>
+
+	<script>
+		// small script to update year and show a demo alert
+		document.getElementById('year').textContent = new Date().getFullYear();
+		document.getElementById('demoButton').addEventListener('click', function(e){
+			e.preventDefault();
+			alert('This is a basic HTML page — customize it as needed.');
+		});
+	</script>
+</body>
+</html>

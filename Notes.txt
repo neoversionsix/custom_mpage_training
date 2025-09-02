@@ -1,0 +1,8 @@
+CUST_SCRIPT folder
+- html
+- prg
+
+static_content folder
+- css
+- js
+- image files (within a subfolder)
