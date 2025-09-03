@@ -61,7 +61,7 @@ function patientInfoTable(){
 				{tableBody.push(
 					"<tr>",
 						"<td class='col1-first'>",pi_var2[0].text,"</td>",
-						"<td class='col2' title=",pi_var2[2].text,"\>",pi_var2[1].text,"</td>",
+						"<td class='col2' title=\"",pi_var2[2].text,"\">",pi_var2[1].text,"</td>",
 					"</tr>");}
 			}
 
