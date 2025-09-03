@@ -26,16 +26,19 @@ head report
    sXML = concat(sXML, "<patientInfo>")
    sXML = concat(sXML, "<patientInfo_label>Patient Name:</patientInfo_label>")
    sXML = concat(sXML, "<patientInfo_result>", trim(p.name_full_formatted,3), "</patientInfo_result>")
+   sXML = concat(sXML, "<patientInfo_detail>This person's name is: ",p.name_full_formatted,"</patientInfo_detail>")
    sXML = concat(sXML, "</patientInfo>")
 
    sXML = concat(sXML, "<patientInfo>")
    sXML = concat(sXML, "<patientInfo_label>Birth Date:</patientInfo_label>")
    sXML = concat(sXML, "<patientInfo_result>", trim(dob,3), "</patientInfo_result>")
+   sXML = concat(sXML, "<patientInfo_detail>This person's birthdate is: ",dob,"</patientInfo_detail>")
    sXML = concat(sXML, "</patientInfo>")
 
    sXML = concat(sXML, "<patientInfo>")
    sXML = concat(sXML, "<patientInfo_label>Gender:</patientInfo_label>")
    sXML = concat(sXML, "<patientInfo_result>", trim(gender,3), "</patientInfo_result>")
+   sXML = concat(sXML, "<patientInfo_detail>This person's gender is: ",gender,"</patientInfo_detail>")
    sXML = concat(sXML, "</patientInfo>")
 with nocounter
 
