@@ -90,61 +90,106 @@ function patientInfoTable(){
 	return;
 }
 
+// function allergyInfoTable(){
+
+// 	var mod_i = 0;
+//    	var OddRow = "";
+
+// 	// Initialize the request object
+// 	var algyInfo = new XMLCclRequest();
+
+// 	// Get the response
+// 	algyInfo.onreadystatechange = function () {
+// 		if (algyInfo.readyState == 4 && algyInfo.status == 200) {
+// 			var xmlDoc = loadXMLString(algyInfo.responseText);
+
+// 			// Get all of the parent allergy nodes from the xml
+// 			var all_var = xmlDoc.getElementsByTagName("allergy");
+
+// 			// Start building the allergy table
+// 			var tableBody = ["<table>"];
+// 			// Loop through the parent nodes to get the child nodes 
+// 			for (var i=0, aLen=all_var.length;i<aLen;i++){
+// 				   mod_i = i%2;
+// 					OddRow = "";
+// 					if (mod_i)
+// 				  	OddRow = " class='odd_row'";
+// 				var all_var2 = all_var[i].childNodes;
+
+// 				tableBody.push(
+// 					"<tr",OddRow,">",
+// 						"<td class='col1'>",all_var2[0].text,"</td>",
+// 						"<td class='col2'>",all_var2[1].text,"</td>",
+// 					"</tr>");
+// 			}	
+
+// 			// Close the table
+// 			tableBody.push("</table>");
+
+// 			// Insert the table into the allergy section
+// 			document.getElementById('allergyTable').innerHTML  = tableBody.join("");
+
+// 			var link = tabLink("Allergies/Sensitivities","Allergies/Sensitivities+","$APP_APPNAME$");
+
+// 			// Insert the link into the allergy section header
+// 			document.getElementById('patall').innerHTML  = link;
+
+// 		};   //if
+// 	} //function
+
+
+// 	//  Call the ccl program and send the parameter string
+// 	algyInfo.open('GET', "JW1_MPAGE_ALLERGIES");
+// 	//algyInfo.send("MINE, $PAT_Personid$");
+// 	algyInfo.send("MINE, 15779987.00 "); 
+
+// 	return;
+// }
+
 function allergyInfoTable(){
-
-	var mod_i = 0;
-   	var OddRow = "";
-
 	// Initialize the request object
-	var algyInfo = new XMLCclRequest();
+	var allInfo = new XMLCclRequest();
 
 	// Get the response
-	algyInfo.onreadystatechange = function () {
-		if (algyInfo.readyState == 4 && algyInfo.status == 200) {
-			var xmlDoc = loadXMLString(algyInfo.responseText);
+	allInfo.onreadystatechange = function () {
+		if (allInfo.readyState == 4 && allInfo.status == 200) {
+			var msgAllergy = allInfo.responseText;
 
-			// Get all of the parent allergy nodes from the xml
-			var all_var = xmlDoc.getElementsByTagName("allergy");
+			if (msgAllergy != undefined && msgAllergy != null && msgAllergy > " ") {
+				var jsonAllergy = eval('(' + msgAllergy + ')');
+			}
 
-			// Start building the allergy table
-			var tableBody = ["<table>"];
-			// Loop through the parent nodes to get the child nodes 
-			for (var i=0, aLen=all_var.length;i<aLen;i++){
-				   mod_i = i%2;
-					OddRow = "";
-					if (mod_i)
-				  	OddRow = " class='odd_row'";
-				var all_var2 = all_var[i].childNodes;
+			if (jsonAllergy){
+				var tableBody = ["<table>"];
+				for (var i=0,aLen=jsonAllergy.ALLERGIES.ALLERGY.length;i<aLen;i++) {
+					var allergyObj = jsonAllergy.ALLERGIES.ALLERGY[i]; 
 
-				tableBody.push(
-					"<tr",OddRow,">",
-						"<td class='col1'>",all_var2[0].text,"</td>",
-						"<td class='col2'>",all_var2[1].text,"</td>",
+					tableBody.push(    
+					"<tr class='allergyRow'>",
+						"<td class='col1'>", allergyObj.ALLERGY_NAME,"</td>",
+						"<td class='col2'>", allergyObj.ALLERGY_REACTION,"</td>",
 					"</tr>");
-			}	
+				}  // end for
 
-			// Close the table
-			tableBody.push("</table>");
+				// Close the table
+				tableBody.push("</table>");
 
-			// Insert the table into the allergy section
-			document.getElementById('allergyTable').innerHTML  = tableBody.join("");
+				// Insert the table into the allergy section
+				document.getElementById('allergyTable').innerHTML  = tableBody.join("")
 
-			var link = tabLink("Allergies/Sensitivities","Allergies/Sensitivities+","$APP_APPNAME$");
-
-			// Insert the link into the allergy section header
-			document.getElementById('patall').innerHTML  = link;
-
+				//  This will do alternate row shading with jquery
+				//$('tr.allergyRow:odd').addClass('odd_row');
+			} //if (jsonAllergy)
 		};   //if
 	} //function
 
-
-	//  Call the ccl program and send the parameter string
-	algyInfo.open('GET', "JW1_MPAGE_ALLERGIES");
-	//algyInfo.send("MINE, $PAT_Personid$");
-	algyInfo.send("MINE, 15779987.00 "); 
+	//  Call the ccl progam and send the parameter string
+	allInfo.open('GET', "JW1_MPAGE_ALLERGIES_JSON");
+	allInfo.send("MINE, $PAT_Personid$");
 
 	return;
 }
+
 
 function tabLink (desc,firstTab,appl) {
 	var nMode = 0;
