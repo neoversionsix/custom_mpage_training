@@ -32,7 +32,7 @@ caption { position: absolute; visibility: hidden; line-height: 0; font-size: 0; 
  
 /* Layout */
 .navigation { position: absolute; visibility: hidden; }
-.ps-hd { font-size: 1.3em; padding: .5em 0; margin: 0 0 .5em 0; border-bottom: 1px solid #CCC; font-weight: bold; color: #666; }
+.ps-hd { font-size: 1.3em; padding: .5em 0; margin: 0 0 .5em 0; border-bottom: 1px solid #CCC; font-weight: bold; color: red; }
 #sectionOne { float: left; width: 49%; margin: 0 1% 0 0;}
 #sectionTwo { float: left; width: 49%; margin: 0 1% 0 0;}
 #sectionThree { float: left; width: 32%}
@@ -64,11 +64,9 @@ caption { position: absolute; visibility: hidden; line-height: 0; font-size: 0; 
 .simple-table thead th:first-child { visibility: hidden; }
 .simple-table ul li { display: inline; border-left: 1px solid #999; padding: 0 0 0 .75em; margin: 0 0 0 .75em;}
 .simple-table ul li:first-child { border: none; padding: 0; margin: 0; }
+.simple-table .col1-first { font-weight: normal; text-align: right; font-size: 1em; color: blue; padding: 0.25em .25em .5em .25em; width:35%}
 .simple-table .col1 { font-weight: normal; text-align: right; font-size: 1em; color: #505050; padding: 0.25em .25em .5em .25em; width:35%}
-.simple-table .col2 { font-weight: normal; text-align: left; font-size: 1em; color: black; padding: 0.25em .25em .5em 1.0em; width:65% }
-
-/* Only the Patient Information section should show blue text in the first column */
-#patientInfo .col1 { color: blue; }
+.simple-table .col2 { font-weight: normal; text-align: left; font-size: 1em; color: #black; padding: 0.25em .25em .5em 1.0em;width:65%}
 .pat-detail {background: #FFF; padding: .5em .5em .5em .5em; z-index: 1; margin: -1px 1em 1em .5em; width: 35em; line-height: 1em; border: 1px solid black; border-color: black; }
-.pat-detail.hover { position: absolute; display: block; z-index: 1000; border-color: black; background:#F4F4F4; }
-.simple-table .odd_row { background: #EAEAEA; } /* Updated background color for better readability */
+.pat-detail.hover { position: absolute; display: none; z-index: 1000; border-color: black; background:#F4F4F4;}
+.simple-table .odd_row {background:#F4F4F4;}
