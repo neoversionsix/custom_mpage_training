@@ -51,6 +51,8 @@ caption { position: absolute; visibility: hidden; line-height: 0; font-size: 0; 
 .section.closed * { display: none; }
 .section.closed .sec-hd { display: block; margin: 0;}
 .section.closed .sec-hd * { display: inline; }
+
+.toggleButton {float:right; padding-top:0.4em; text-align: center; width: 1em; height: 1em;font-size: 1.4em; font-weight:bold; cursor:pointer;}
  
 /* Simple Table */
 .scrollDiagnostics { height: 20em; overflow-y: auto;}

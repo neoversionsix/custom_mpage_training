@@ -26,4 +26,20 @@ $.extend({
             }
         });	
     }});
+
+$(document).ready(function() {
+    $('.toggleButton').click(function() {
+        if ($(this).siblings("div:first").is(":hidden"))
+        {
+            $(this).html("-");
+            $(this).siblings("div:first").slideDown("fast");
+        }
+        else
+        {
+            $(this).html("+");
+            $(this).siblings("div:first").slideUp("fast");
+        }
+    });
+});
+    
     
