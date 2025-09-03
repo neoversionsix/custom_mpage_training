@@ -82,8 +82,8 @@ function patientInfoTable(){
 
 	//  Call the ccl progam and send the parameter string
 	patInfo.open('GET', "JW1_MPAGE_PATIENTINFO");
-	patInfo.send("MINE, $PAT_Personid$");
-	//patInfo.send("MINE, 15779987.00 "); 
+	//patInfo.send("MINE, $PAT_Personid$");
+	patInfo.send("MINE, 15779987.00 "); 
 
 	return;
 }
@@ -138,8 +138,8 @@ function allergyInfoTable(){
 
 	//  Call the ccl program and send the parameter string
 	algyInfo.open('GET', "JW1_MPAGE_ALLERGIES");
-	algyInfo.send("MINE, $PAT_Personid$");
-	//algyInfo.send("MINE, 15779987.00 "); 
+	//algyInfo.send("MINE, $PAT_Personid$");
+	algyInfo.send("MINE, 15779987.00 "); 
 
 	return;
 }
