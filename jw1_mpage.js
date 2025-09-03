@@ -178,7 +178,7 @@ function allergyInfoTable(){
 				document.getElementById('allergyTable').innerHTML  = tableBody.join("")
 
 				//  This will do alternate row shading with jquery
-				//$('tr.allergyRow:odd').addClass('odd_row');
+				$('tr.allergyRow:odd').addClass('odd_row');
 			} //if (jsonAllergy)
 		};   //if
 	} //function
