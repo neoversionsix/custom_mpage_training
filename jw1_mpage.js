@@ -152,3 +152,9 @@ function tabLink (desc,firstTab,appl) {
 	var vcParams = "/PERSONID=$PAT_PERSONID$ /ENCNTRID=$VIS_ENCNTRID$ /FIRSTTAB="+firstTab;
 	return ["<a title='Click to go to ",firstTab," Tab' href='javascript:APPLINK(",nMode,",\"",vcAppName,"\",\"",vcParams,"\");'>",vcDescription,"</a>"].join("");
 }
+
+function addAllergy() {
+	var paramString =  "$PAT_PERSONID$|$VIS_ENCNTRID$|0|0|||0||0|0";
+	MPAGES_EVENT("Allergy", paramString);
+	allergyInfoTable();
+} //end addAllergy
