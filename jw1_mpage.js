@@ -57,12 +57,12 @@ function patientInfoTable(){
 			// Loop through the parent nodes to get the child nodes 
 			for (var i=0, pLen=pi_var.length; i<pLen; i++){
 				var pi_var2 = pi_var[i].childNodes;
-
-				tableBody.push(
+				if (pi_var2[0].text != "Person_ID:")
+				{tableBody.push(
 					"<tr>",
-						"<td class='col1'>",pi_var2[0].text,"</td>",
+						"<td class='col1-first'>",pi_var2[0].text,"</td>",
 						"<td class='col2'>",pi_var2[1].text,"</td>",
-					"</tr>");
+					"</tr>");}
 			}
 
 			// Close the table
@@ -70,26 +70,29 @@ function patientInfoTable(){
 
 			// Insert the table into the patient information section
 			document.getElementById('patientInfoTable').innerHTML  = tableBody.join("");
-			
+		
 			var link = tabLink("Custom Patient Information","Patient Information","$APP_APPNAME$");
 
 			// Insert the link into the patient information section header
 			document.getElementById('patHeader').innerHTML  = link;
+
 		};   //if
 	} //function
+
 
 	//  Call the ccl progam and send the parameter string
 	patInfo.open('GET', "JW1_MPAGE_PATIENTINFO");
 	patInfo.send("MINE, $PAT_Personid$");
-	//patInfo.send("MINE, 15779987.00"); 
+	//patInfo.send("MINE, 15779987.00 "); 
 
 	return;
 }
 
-
 function allergyInfoTable(){
+
 	var mod_i = 0;
-	var OddRow = "";
+   	var OddRow = "";
+
 	// Initialize the request object
 	var algyInfo = new XMLCclRequest();
 
@@ -105,10 +108,10 @@ function allergyInfoTable(){
 			var tableBody = ["<table>"];
 			// Loop through the parent nodes to get the child nodes 
 			for (var i=0, aLen=all_var.length;i<aLen;i++){
-				mod_i = i%2;
-				OddRow = "";
-				if (mod_i)
-					OddRow = " class='odd_row'";
+				   mod_i = i%2;
+					OddRow = "";
+					if (mod_i)
+				  	OddRow = " class='odd_row'";
 				var all_var2 = all_var[i].childNodes;
 
 				tableBody.push(
@@ -116,15 +119,22 @@ function allergyInfoTable(){
 						"<td class='col1'>",all_var2[0].text,"</td>",
 						"<td class='col2'>",all_var2[1].text,"</td>",
 					"</tr>");
-			}
+			}	
 
 			// Close the table
 			tableBody.push("</table>");
 
 			// Insert the table into the allergy section
 			document.getElementById('allergyTable').innerHTML  = tableBody.join("");
+
+			var link = tabLink("Allergies/Sensitivities","Allergies/Sensitivities+","$APP_APPNAME$");
+
+			// Insert the link into the allergy section header
+			document.getElementById('patall').innerHTML  = link;
+
 		};   //if
 	} //function
+
 
 	//  Call the ccl program and send the parameter string
 	algyInfo.open('GET', "JW1_MPAGE_ALLERGIES");
