@@ -37,6 +37,7 @@ function getEvents(){
 	// Call functions to format html and populate sections
 	patientInfoTable();
 	allergyInfoTable();
+	docTable();
 }
 
 function patientInfoTable(){
@@ -158,3 +159,55 @@ function addAllergy() {
 	MPAGES_EVENT("Allergy", paramString);
 	allergyInfoTable();
 } //end addAllergy
+
+function docTable(){
+	// Initialize the request object
+	var docInfo = new XMLCclRequest();
+
+	// Get the response
+	docInfo.onreadystatechange = function () {
+		if (docInfo.readyState == 4 && docInfo.status == 200) {
+			var xmlDoc = loadXMLString(docInfo.responseText);
+
+			// Get all of the parent patientInfo nodes from the xml
+			var doc_var = xmlDoc.getElementsByTagName("documents");
+
+			// Start building the patient information table
+			var tableBody = [
+				"<table>", 
+				"<thead>",
+				"<tr>",
+					"<td class='diagnosticsCol1Hdr'>&nbsp;</td>",
+					"<td class='diagnosticsCol3Hdr'>Date/Time</td>",
+				"</tr>",
+				"</thead>",
+				"<tbody>"];
+
+
+			// Loop through the parent nodes to get the child nodes 
+			for (var i=0, dLen=doc_var.length;i<dLen;i++){
+				var doc_var2 = doc_var[i].childNodes;
+
+				var paramStr = "^MINE^,"+doc_var2[2].text;
+
+				tableBody.push(
+					"<tr>",
+						"<td class='diagnosticsCol1'>",doc_var2[1].text,"</td>",
+						"<td class='diagnosticsCol2'><a href=\"javascript:CCLLINK( 'mp_rtf_view', '"+paramStr+"', 0)\";>",doc_var2[0].text,"</a></td>",
+					"</tr>");
+			}
+
+			// Close the table
+			tableBody.push("</tbody></table>");
+
+			// Insert the table into the patient information section
+			document.getElementById('documentTable').innerHTML  = tableBody.join("");
+		};   //if
+	} //function
+
+	//  Call the ccl progam and send the parameter string
+	docInfo.open('GET', "JW1_MPAGE_DOCUMENTS");
+	docInfo.send("MINE, $PAT_Personid$, $VIS_Encntrid$");
+
+	return;
+}
