@@ -1,0 +1,3 @@
+MINE,$PAT_PERSONID$, $VIS_ENCNTRID$, $USR_PERSONID$,"I:\\WININTEL\\static_content\\jw2_mpage",^cust_script:jw2_mpage.html^
+
+MINE,$PAT_PERSONID$, $VIS_ENCNTRID$, $USR_PERSONID$,"I:\\WININTEL\\static_content\\jw1_mpage",^cust_script:jw1_mpage.html^

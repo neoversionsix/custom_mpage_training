@@ -1,0 +1,4 @@
+/* zzz.documents */
+.zzz-documents table {table-layout:fixed;border-collapse:collapse;}
+.zzz-documents td{color:#505050; border-bottom:1px solid #F4F4F4;}
+.zzz-documents td.doc-detail{border-bottom:1px solid #F4F4F4;}
