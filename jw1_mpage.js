@@ -1,152 +1,79 @@
-function verify(){
-    // 0 Object is not initialized
-    // 1 Loading object is loading data
-    // 2 Loaded object has loaded data
-    // 3 Data from object can be worked with
-    // 4 Object completely initialized
-    if (xmlDoc.readyState != 4){
-        return (false);
-    }
-}
- 
-function loadXMLString(txt) {
-	try //Internet Explorer
-	{
-		//this creates the nex XML object
-		xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-		xmlDoc.async="false";
-		xmlDoc.onreadystatechange=verify;
-		xmlDoc.loadXML(txt);
-		return(xmlDoc);
-	}
-	catch(e)
-	{
-		try //Firefox, Mozilla, Opera, etc.
-		{
-			parser=new DOMParser();
-			xmlDoc=parser.parseFromString(txt,"text/xml");
-			return(xmlDoc);
-		}
-		catch(e) {alert(e.message);}
-	}
-	alert('returning null...');
-	return(null);
-}
-
 function getEvents(){
 	// Call functions to format html and populate sections
-	patientInfoTable();
+	patientInfoTable(); 
 	allergyInfoTable();
 	docTable();
 }
 
-function patientInfoTable(){
+//Add async for Edge Compatibility******************
+async function patientInfoTable(){
+    //Added for Edge Compatibility ***Start********************
+    let patPromise = new Promise(function(resolve) {
+    //Added for Edge Compatibility ***End********************
 	// Initialize the request object
 	var patInfo = new XMLCclRequest();
 
 	// Get the response
 	patInfo.onreadystatechange = function () {
 		if (patInfo.readyState == 4 && patInfo.status == 200) {
-			var xmlDoc = loadXMLString(patInfo.responseText);
-
-			// Get all of the parent patientInfo nodes from the xml
-			var pi_var = xmlDoc.getElementsByTagName("patientInfo");
-
-			// Start building the patient information table
-			var tableBody = ["<table>"];
-
-			// Loop through the parent nodes to get the child nodes 
-			for (var i=0, pLen=pi_var.length; i<pLen; i++){
-				var pi_var2 = pi_var[i].childNodes;
-				if (pi_var2[0].text != "Person_ID:")
-				{tableBody.push(
-					"<tr>",
-						"<td class='col1-first'>",pi_var2[0].text,"</td>",
-						"<td class='col2' title=\"",pi_var2[2].text,"\">",pi_var2[1].text,"</td>",
-					"</tr>");}
+            var msgPatient = patInfo.responseText;
+			if (msgPatient != undefined && msgPatient != null && msgPatient > " ") {
+				var jsonPatient = eval('(' + msgPatient + ')');
 			}
+			if (jsonPatient){
+				var tableBody = ["<table>"];
+				for (var i=0,aLen=jsonPatient.PATINFO.INFO.length;i<aLen;i++) {
+					var patObj = jsonPatient.PATINFO.INFO[i]; 
 
-			// Close the table
-			tableBody.push("</table>");
+					tableBody.push(    
+					"<tr>",
+						"<td class='col1'>", patObj.LABEL,"</td>",
+						"<td class='col2' title=\"",patObj.HOVER,"\">",patObj.DATA,"</td>",
+					"</tr>");
+				}  // end for
+
+				// Close the table
+				tableBody.push("</table>");
 
 			// Insert the table into the patient information section
 			document.getElementById('patientInfoTable').innerHTML  = tableBody.join("");
-		
+			
 			var link = tabLink("Custom Patient Information","Patient Information","$APP_APPNAME$");
 
 			// Insert the link into the patient information section header
 			document.getElementById('patHeader').innerHTML  = link;
-			//Initialize the col2 elements as hovers
+
+            //Added for Edge Compatibility ***Start********************
+            resolve("Finished getting Patient data");            
+            //Added for Edge Compatibility ***End********************                     
+
+            //Initialize the col2 elements as hovers
 			$.reInitPopUps('patientInfoTable');
+			} //if (jsonPatient)            
 		};   //if
 	} //function
 
-
 	//  Call the ccl progam and send the parameter string
-	patInfo.open('GET', "JW1_MPAGE_PATIENTINFO");
-	//patInfo.send("MINE, $PAT_Personid$");
-	patInfo.send("MINE, 15779987.00 "); 
-
-	return;
+    //Add ,true for Edge Compatibility******************
+	patInfo.open('GET', "ZZZ_MPAGE_PATIENTINFO",true);
+	//patInfo.send("MINE, $PAT_Personid$"); 
+	patInfo.send("MINE, "+MPAGE_REC.PERSON_ID);
+	//patInfo.send("MINE,1416145.00"); 
+    //Added for Edge Compatibility ***Start********************
+    });
+    console.log("starting to wait for promise");        
+    var waitForPromise = await patPromise;   
+    console.log(waitForPromise); 
+    //Added for Edge Compatibility ***End********************
+	// return;
 }
 
-// function allergyInfoTable(){
+//Add async for Edge Compatibility******************
+async function allergyInfoTable(){
+    //Added for Edge Compatibility ***Start********************
+    let algPromise = new Promise(function(resolve) {
+    //Added for Edge Compatibility ***End********************
 
-// 	var mod_i = 0;
-//    	var OddRow = "";
-
-// 	// Initialize the request object
-// 	var algyInfo = new XMLCclRequest();
-
-// 	// Get the response
-// 	algyInfo.onreadystatechange = function () {
-// 		if (algyInfo.readyState == 4 && algyInfo.status == 200) {
-// 			var xmlDoc = loadXMLString(algyInfo.responseText);
-
-// 			// Get all of the parent allergy nodes from the xml
-// 			var all_var = xmlDoc.getElementsByTagName("allergy");
-
-// 			// Start building the allergy table
-// 			var tableBody = ["<table>"];
-// 			// Loop through the parent nodes to get the child nodes 
-// 			for (var i=0, aLen=all_var.length;i<aLen;i++){
-// 				   mod_i = i%2;
-// 					OddRow = "";
-// 					if (mod_i)
-// 				  	OddRow = " class='odd_row'";
-// 				var all_var2 = all_var[i].childNodes;
-
-// 				tableBody.push(
-// 					"<tr",OddRow,">",
-// 						"<td class='col1'>",all_var2[0].text,"</td>",
-// 						"<td class='col2'>",all_var2[1].text,"</td>",
-// 					"</tr>");
-// 			}	
-
-// 			// Close the table
-// 			tableBody.push("</table>");
-
-// 			// Insert the table into the allergy section
-// 			document.getElementById('allergyTable').innerHTML  = tableBody.join("");
-
-// 			var link = tabLink("Allergies/Sensitivities","Allergies/Sensitivities+","$APP_APPNAME$");
-
-// 			// Insert the link into the allergy section header
-// 			document.getElementById('patall').innerHTML  = link;
-
-// 		};   //if
-// 	} //function
-
-
-// 	//  Call the ccl program and send the parameter string
-// 	algyInfo.open('GET', "JW1_MPAGE_ALLERGIES");
-// 	//algyInfo.send("MINE, $PAT_Personid$");
-// 	algyInfo.send("MINE, 15779987.00 "); 
-
-// 	return;
-// }
-
-function allergyInfoTable(){
 	// Initialize the request object
 	var allInfo = new XMLCclRequest();
 
@@ -176,7 +103,9 @@ function allergyInfoTable(){
 
 				// Insert the table into the allergy section
 				document.getElementById('allergyTable').innerHTML  = tableBody.join("")
-
+                //Added for Edge Compatibility ***Start********************
+                resolve("Finished getting Allergy data");            
+                //Added for Edge Compatibility ***End********************
 				//  This will do alternate row shading with jquery
 				$('tr.allergyRow:odd').addClass('odd_row');
 			} //if (jsonAllergy)
@@ -184,10 +113,87 @@ function allergyInfoTable(){
 	} //function
 
 	//  Call the ccl progam and send the parameter string
-	allInfo.open('GET', "JW1_MPAGE_ALLERGIES_JSON");
-	allInfo.send("MINE, $PAT_Personid$");
+    //Add ,true for Edge Compatibility******************
+	allInfo.open('GET', "ZZZ_MPAGE_ALLERGIES_JSON",true);
+	//allInfo.send("MINE, $PAT_Personid$"); 
+	allInfo.send("MINE, "+MPAGE_REC.PERSON_ID);
+    //Added for Edge Compatibility ***Start********************
+    });
+    console.log("starting to wait for promise");        
+    var waitForPromise = await algPromise;   
+    console.log(waitForPromise); 
+    //Added for Edge Compatibility ***End********************
+	// return;
+}
 
-	return;
+//Add async for Edge Compatibility******************
+async function docTable(){
+    //Added for Edge Compatibility ***Start********************
+    let docPromise = new Promise(function(resolve) {
+    //Added for Edge Compatibility ***End********************
+
+	// Initialize the request object
+	var docInfo = new XMLCclRequest();
+
+	// Get the response
+	docInfo.onreadystatechange = function () {
+		if (docInfo.readyState == 4 && docInfo.status == 200) {
+			// var xmlDoc = loadXMLString(docInfo.responseText);
+            var xmlDoc = docInfo.responseText;
+			if (xmlDoc != undefined && xmlDoc != null && xmlDoc > " ") {
+				var jsonDoc = eval('(' + xmlDoc + ')');
+			}
+
+			if (jsonDoc){
+				var tableBody = ["<table>"];
+                // Start building the patient information table
+                var tableBody = [
+                	"<table>", 
+                	"<thead>",
+                	"<tr>",
+                		"<td class='diagnosticsCol1Hdr'>&nbsp;</td>",
+                		"<td class='diagnosticsCol3Hdr'>Date/Time</td>",
+                	"</tr>",
+                	"</thead>",
+                	"<tbody>"]; 
+                    
+				for (var i=0,aLen=jsonDoc.DOCUMENTS.DOCUMENT.length;i<aLen;i++) {
+					var docObj = jsonDoc.DOCUMENTS.DOCUMENT[i]; 
+                    var paramStr = "^MINE^,"+docObj.EVENT_ID;
+
+					tableBody.push(    
+					"<tr>",
+						"<td class='diagnosticsCol1'>", docObj.TITLE,"</td>",
+						"<td class='diagnosticsCol2'><a href=\"javascript:CCLLINK( 'mp_rtf_view', '"+paramStr+"', 0)\";>",docObj.DATE,"</a></td>",
+					"</tr>");
+				}  // end for
+
+				// Close the table
+				tableBody.push("</table>");
+
+                // Insert the table into the patient information section
+                document.getElementById('documentTable').innerHTML  = tableBody.join("");
+                //Added for Edge Compatibility ***Start********************
+                resolve("Finished getting Document data");            
+                //Added for Edge Compatibility ***End********************
+			} //if (jsonAllergy)
+
+
+		};   //if
+	} //function
+
+	//  Call the ccl progam and send the parameter string
+    //Add ,true for Edge Compatibility******************
+	docInfo.open('GET', "ZZZ_MPAGE_DOCUMENTS",true);
+	//docInfo.send("MINE, $PAT_Personid$, $VIS_Encntrid$");
+	docInfo.send("MINE, "+MPAGE_REC.PERSON_ID+", "+MPAGE_REC.ENCNTR_ID);
+    //Added for Edge Compatibility ***Start********************
+    });
+    console.log("starting to wait for promise");        
+    var waitForPromise = await docPromise;   
+    console.log(waitForPromise); 
+    //Added for Edge Compatibility ***End********************
+	// return;
 }
 
 
@@ -195,64 +201,12 @@ function tabLink (desc,firstTab,appl) {
 	var nMode = 0;
 	var vcAppName = appl;
 	var vcDescription = desc;
-	var vcParams = "/PERSONID=$PAT_PERSONID$ /ENCNTRID=$VIS_ENCNTRID$ /FIRSTTAB="+firstTab;
+	var vcParams = "/PERSONID=$PAT_Personid$ /ENCNTRID=$VIS_Encntrid$ /FIRSTTAB="+firstTab;
 	return ["<a title='Click to go to ",firstTab," Tab' href='javascript:APPLINK(",nMode,",\"",vcAppName,"\",\"",vcParams,"\");'>",vcDescription,"</a>"].join("");
 }
 
 function addAllergy() {
-	var paramString =  "$PAT_PERSONID$|$VIS_ENCNTRID$|0|0|||0||0|0";
+	var paramString =  "$PAT_Personid$|$VIS_Encntrid$|0|0|||0||0|0";
 	MPAGES_EVENT("Allergy", paramString);
 	allergyInfoTable();
-} //end addAllergy
-
-function docTable(){
-	// Initialize the request object
-	var docInfo = new XMLCclRequest();
-
-	// Get the response
-	docInfo.onreadystatechange = function () {
-		if (docInfo.readyState == 4 && docInfo.status == 200) {
-			var xmlDoc = loadXMLString(docInfo.responseText);
-
-			// Get all of the parent patientInfo nodes from the xml
-			var doc_var = xmlDoc.getElementsByTagName("documents");
-
-			// Start building the patient information table
-			var tableBody = [
-				"<table>", 
-				"<thead>",
-				"<tr>",
-					"<td class='diagnosticsCol1Hdr'>&nbsp;</td>",
-					"<td class='diagnosticsCol3Hdr'>Date/Time</td>",
-				"</tr>",
-				"</thead>",
-				"<tbody>"];
-
-
-			// Loop through the parent nodes to get the child nodes 
-			for (var i=0, dLen=doc_var.length;i<dLen;i++){
-				var doc_var2 = doc_var[i].childNodes;
-
-				var paramStr = "^MINE^,"+doc_var2[2].text;
-
-				tableBody.push(
-					"<tr>",
-						"<td class='diagnosticsCol1'>",doc_var2[1].text,"</td>",
-						"<td class='diagnosticsCol2'><a href=\"javascript:CCLLINK( 'mp_rtf_view', '"+paramStr+"', 0)\";>",doc_var2[0].text,"</a></td>",
-					"</tr>");
-			}
-
-			// Close the table
-			tableBody.push("</tbody></table>");
-
-			// Insert the table into the patient information section
-			document.getElementById('documentTable').innerHTML  = tableBody.join("");
-		};   //if
-	} //function
-
-	//  Call the ccl progam and send the parameter string
-	docInfo.open('GET', "JW1_MPAGE_DOCUMENTS");
-	docInfo.send("MINE, $PAT_Personid$, $VIS_Encntrid$");
-
-	return;
-}
+} //end addAllergy 

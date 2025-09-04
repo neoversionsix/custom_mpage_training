@@ -3,21 +3,36 @@ create program jw1_mpage_driver:dba
 
 prompt
        	"Output to File/Printer/MINE" = "MINE"
-,"HTML File:" = "cust_script:jw1_mpage.html"
-with outdev, html_file
+		,"Patient Id:" = 0.0
+		,"Encounter Id:" = 0.0
+		,"User Id:" = 0.0
+		,"Static Content Directory:" = ""
+		,"HTML File:" = "cust_script:jw1_mpage.html"
+
+with outdev, person_id, encntr_id, user_id, sourcedir, html_file
 
 /***************************************************************************
  *          	Declare Records                 		  		*
  ***************************************************************************/
 free record mpage_rec
 record mpage_rec (
+	1 person_id = f8
+	1 encntr_id = f8
+	1 user_id = f8
+	1 source_dir = vc
 	1 html_file = vc
 )
+
 
 /***************************************************************************
  * 		Assign prompts to record structure				*
  ***************************************************************************/
+set mpage_rec->person_id = $person_id
+set mpage_rec->encntr_id = $encntr_id
+set mpage_rec->user_id = $user_id
+set mpage_rec->source_dir = $sourcedir
 set mpage_rec->html_file = $html_file
+
 
 /***************************************************************************
  * 		Read in HTML and display error HTML if incorrect		*
@@ -50,6 +65,16 @@ if(getREPLY->status_data.status = "F")
 		^</body></html>^
 	)
 endif
+
+/***************************************************************************
+ * 		Replace special strings in HTML File				*
+ ***************************************************************************/
+; Replace $SOURCE_DIR$ in the HTML file with the actual location of the static_content files
+set getReply->data_blob = replace(getReply->data_blob,"$SOURCE_DIR$", mpage_rec->source_dir,0)
+
+; Replace $MPAGE_REC$ in the HTML file with the JSON for the record
+set getReply->data_blob = replace(getReply->data_blob,"$MPAGE_REC$", CNVTRECTOJSON(mpage_rec),0)
+
 
 /***************************************************************************
  * 		Outputs HTML to the display					*
