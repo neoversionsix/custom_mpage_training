@@ -36,6 +36,8 @@ join ceb
    where ceb.event_id = ce.event_id
       and ceb.valid_until_dt_tm > cnvtdatetime(curdate,curtime3)
 order by ce.event_end_dt_tm desc
+head report
+	cnt = 0
 head ceb.event_id
 	cnt = cnt + 1
 	if (size(documents->document,5)<cnt)
@@ -44,8 +46,11 @@ head ceb.event_id
 	documents->document[cnt].event_id = ceb.event_id
 	documents->document[cnt].title = ce.event_tag
 	documents->document[cnt].date = format(ce.event_end_dt_tm,"mm/dd/yyyy hh:mm;;dq")
+foot report
+stat = alterlist(documents->document, cnt)
 with nocounter
 call echorecord(documents)
+
 set _Memory_Reply_String = CNVTRECTOJSON(documents)
 end
 go
