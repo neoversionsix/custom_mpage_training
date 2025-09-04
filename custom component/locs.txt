@@ -1,0 +1,3 @@
+"MINE", $PAT_PERSONID$, $VIS_ENCNTRID$, $USR_PERSONID$, $USR_PositionCd$, $PAT_PPRCode$, "$APP_AppName$", "<static content path>\MPAGES_6_x_SANDBOX|", "<View or ViewPoint Identifier from step 4>"
+
+"MINE", $PAT_PERSONID$, $VIS_ENCNTRID$, $USR_PERSONID$, $USR_PositionCd$, $PAT_PPRCode$, "$APP_AppName$", "\\wheaaunas\wheaau\c2031\winintel\MPAGES_8_9 - JW_SANDBOX|", "VB_JW3TEST"
