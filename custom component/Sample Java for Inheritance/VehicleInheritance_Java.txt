@@ -1,0 +1,46 @@
+class Vehicle {
+  public void Wheels() {
+    System.out.println("Depends on the Vehicle!");
+  }
+  public void Fly() {
+    System.out.println("Can I Fly??? Are you Kidding!");
+  }  
+}
+class Car extends Vehicle {
+  public void Wheels() {
+    System.out.println("It is 4 Wheels!");
+  }
+}
+class Bike extends Vehicle {
+  public void Wheels() {
+    System.out.println("It is 2 Wheels!");
+  }
+}
+class Boeing extends Vehicle {
+  public void Wheels() {
+    System.out.println("Too many wheels to count!");
+  }
+  public void Fly() {
+    System.out.println("I can fly but not sure about landing safely!!!");
+  }   
+}
+
+class Init {
+  public static void main(String[] args) {
+  	System.out.println("Lets try Car object...");
+    Car myCar = new Car();
+    myCar.Wheels();
+    myCar.Fly();
+  	System.out.println("**********************************************");
+  	System.out.println("Now Lets try Bike object...");  
+    Bike myBike = new Bike();
+    myBike.Wheels();
+    myBike.Fly();    
+  	System.out.println("**********************************************");
+  	System.out.println("Now Lets try Boeing object...");  
+    Boeing myFlight = new Boeing();
+    myFlight.Wheels();
+    myFlight.Fly();      
+  	System.out.println("**********************************************");
+  }
+}
