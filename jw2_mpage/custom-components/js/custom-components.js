@@ -472,10 +472,6 @@ jw2.documents.twoYears = {
 	"lookback_desc":"2 years"
 };
 
-jw2.documents.threeYears = {
-	"lookback_ccl":"3 Y",
-	"lookback_desc":"3 years"
-};
 
 jw2.documents.prototype = new MPage.Component();
 jw2.documents.prototype.constructor = MPage.Component;
