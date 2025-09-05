@@ -4,4 +4,4 @@ MINE,$PAT_PERSONID$, $VIS_ENCNTRID$, $USR_PERSONID$,"I:\\WININTEL\\static_conten
 
 \\wheaaunas\wheaau\c2031\winintel
 
-src="\\wheaaunas\wheaau\c2031\winintel\jw1_mpage\jw1_mpage.js"
+src="\\wheaaunas\wheaau\c2031\winintel\static_content\jw1_mpage\jw1_mpage.js"
