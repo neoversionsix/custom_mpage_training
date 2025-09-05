@@ -3,3 +3,5 @@ MINE,$PAT_PERSONID$, $VIS_ENCNTRID$, $USR_PERSONID$,"I:\\WININTEL\\static_conten
 MINE,$PAT_PERSONID$, $VIS_ENCNTRID$, $USR_PERSONID$,"I:\\WININTEL\\static_content\\jw1_mpage",^cust_script:jw1_mpage.html^
 
 \\wheaaunas\wheaau\c2031\winintel
+
+src="\\wheaaunas\wheaau\c2031\winintel\jw1_mpage\jw1_mpage.js"
